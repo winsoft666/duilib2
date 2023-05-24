@@ -16,10 +16,11 @@
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
+#ifdef UILIB_WITH_CEF
 	if (!DuiLib::CefProcessTypeCheck(hInstance)) {
 		return 0;
 	}
-
+#endif
 	_CrtDumpMemoryLeaks();
 	
     DuiLib::Initialize(hInstance, true, true, true, true);

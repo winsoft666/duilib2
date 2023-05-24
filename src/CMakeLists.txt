@@ -40,7 +40,9 @@ file(GLOB CORE_SOURCE_FILES 		    ./Core/*.cpp)
 file(GLOB LAYOUT_SOURCE_FILES 		./Layout/*.cpp)
 file(GLOB RENDER_SOURCE_FILES 		./Render/*.cpp)
 file(GLOB UTILS_SOURCE_FILES 		./Utils/*.cpp)
-file(GLOB INTERNAL_CEF_SOURCE_FILES     ./Internal/Cef/*.cpp)
+if(UILIB_WITH_CEF)
+	file(GLOB INTERNAL_CEF_SOURCE_FILES     ./Internal/Cef/*.cpp)
+endif()
 file(GLOB INTERNAL_SOURCE_FILES 		./Internal/*.cpp)
 
 file(GLOB ROOT_HEADER_FILES 			./UIlib.h ./UIlibExport.h ./UILibInternal.h)
@@ -49,7 +51,9 @@ file(GLOB CORE_HEADER_FILES 		    ./Core/*.h ./Core/*.hpp)
 file(GLOB LAYOUT_HEADER_FILES 		./Layout/*.h ./Layout/*.hpp)
 file(GLOB RENDER_HEADER_FILES 		./Render/*.h ./Render/*.hpp)
 file(GLOB UTILS_HEADER_FILES 		./Utils/*.h ./Utils/*.hpp ./Utils/*.tlh)
-file(GLOB INTERNAL_CEF_HEADER_FILES     ./Internal/Cef/*.h)
+if(UILIB_WITH_CEF)
+	file(GLOB INTERNAL_CEF_HEADER_FILES     ./Internal/Cef/*.h)
+endif()
 file(GLOB INTERNAL_HEADER_FILES 		./Internal/*.h ./Internal/*.hpp)
 
 source_group("Header Files" FILES 
@@ -66,8 +70,10 @@ source_group("Header Files\\Utils" FILES
 	${UTILS_HEADER_FILES})
 source_group("Header Files\\Internal" FILES 
 	${INTERNAL_HEADER_FILES})
-source_group("Header Files\\Internal\\Cef" FILES 
-	${INTERNAL_CEF_HEADER_FILES})
+if(UILIB_WITH_CEF)
+	source_group("Header Files\\Internal\\Cef" FILES 
+		${INTERNAL_CEF_HEADER_FILES})
+endif()
 
 source_group("Source Files" FILES 
 	${ROOT_SOURCE_FILES} ./StdAfx.cpp)
@@ -83,9 +89,10 @@ source_group("Source Files\\Utils" FILES
 	${UTILS_SOURCE_FILES})
 source_group("Source Files\\Internal" FILES 
 	${INTERNAL_SOURCE_FILES})
-source_group("Source Files\\Internal\\Cef" FILES 
-	${INTERNAL_CEF_SOURCE_FILES})
-
+if(UILIB_WITH_CEF)
+	source_group("Source Files\\Internal\\Cef" FILES 
+		${INTERNAL_CEF_SOURCE_FILES})
+endif()
 
 if (MSVC)
     # set_source_files_properties(StdAfx.cpp

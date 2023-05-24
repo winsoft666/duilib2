@@ -1,5 +1,6 @@
 #pragma once
 
+#ifdef UILIB_WITH_CEF
 class DlgFake :
     public WindowImplBase {
 public:
@@ -14,3 +15,4 @@ protected:
 private:
     CCefUI* web_;
 };
+#endif

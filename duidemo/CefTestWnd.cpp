@@ -1,5 +1,6 @@
 ﻿#include "StdAfx.h"
 #include "CefTestWnd.h"
+#ifdef UILIB_WITH_CEF
 #include <sstream>
 
 
@@ -225,3 +226,4 @@ LRESULT CefTestWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
   }
   return __super::HandleMessage(uMsg, wParam, lParam);
 }
+#endif

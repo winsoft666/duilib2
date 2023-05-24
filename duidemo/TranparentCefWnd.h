@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////////////
 ///
 
+#ifdef UILIB_WITH_CEF
 class CTranparentCEFWnd : public WindowImplBase
 {
 public:
@@ -25,3 +26,4 @@ public:
 private:
 	CCefUI* m_pCef;
 };
+#endif

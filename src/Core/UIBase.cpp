@@ -1,6 +1,8 @@
 ﻿#include "StdAfx.h"
 #include "Utils/Task.h"
+#ifdef UILIB_WITH_CEF
 #include "Internal/Cef/CefManager.h"
+#endif
 
 #ifdef _DEBUG
     #include <shlwapi.h>
@@ -441,6 +443,7 @@ namespace DuiLib {
         ::SetWindowPos(m_hWnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
     }
 
+#ifdef UILIB_WITH_CEF
 void CWindowWnd::SetAutoCloseCefWhenWindowCloseMsg(bool b, WPARAM closeMsgWPARAM, LPARAM closeMsgLPARAM) {
   Internal::CefManager::GetInstance()->SetAutoCloseCefWhenWindowCloseMsg(m_hWnd, b, closeMsgWPARAM, closeMsgLPARAM);
 }
@@ -448,6 +451,7 @@ void CWindowWnd::SetAutoCloseCefWhenWindowCloseMsg(bool b, WPARAM closeMsgWPARAM
 bool CWindowWnd::IsAutoCloseCefWhenWindowCloseMsg() {
   return Internal::CefManager::GetInstance()->IsAutoCloseCefWhenWindowCloseMsg(m_hWnd);
 }
+#endif
 
 LRESULT CWindowWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
         return ::CallWindowProc(m_OldWndProc, m_hWnd, uMsg, wParam, lParam);

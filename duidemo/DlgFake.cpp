@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DlgFake.h"
 
+#ifdef UILIB_WITH_CEF
 DlgFake::DlgFake() : web_(NULL) {
 
 }
@@ -31,3 +32,4 @@ void DlgFake::InitWindow() {
 void DlgFake::OnFinalMessage(HWND hWnd) {
     delete this;
 }
+#endif

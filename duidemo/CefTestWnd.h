@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#ifdef UILIB_WITH_CEF
 class CefTestWnd : 
     public WindowImplBase {
 public:
@@ -47,4 +47,4 @@ private:
 	CButtonUI* btn_call_js_2_;
 	CEditUI*   edt_url_2_;
 };
-
+#endif

@@ -16,7 +16,7 @@ cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake;${CMAKE_MODULE_PATH};")
 project(duilib2 CXX)
 
-option(DUILIB2_BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(DUILIB2_BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(DUILIB2_BUILD_TESTS "Build demo project" ON)
 option(DUILIB2_USE_STATIC_CRT "Set to ON to build with static CRT on Windows (/MT)." OFF)
 option(UILIB_WITH_CEF "Include CEF Control." OFF)

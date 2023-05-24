@@ -4,11 +4,11 @@
 该项目基于[DuiLib_Ultimate](https://github.com/qdtroy/DuiLib_Ultimate)修改，对其进行了BUG修复、功能增强。
 
 # 2. 如何编译
-使用`Visual Studio 2022`打开`src\duilib2.sln`，选择对应的编译选项进行编译，或者使用CMake生成相应的工程然后编译。
+使用CMake生成相应的工程然后编译。
 
-如果需要编译Cef控件，需要提前下载cef库，并设置`UILIB_WITH_CEF`宏。
+如果需要编译Cef控件，需要打开`UILIB_WITH_CEF`选项，并设置`CEF_BINARY_VER`参数。
 
-CMake脚本会默认下载[winsoft666 cef_binary](https://github.com/winsoft666/cef_binary)项目的v1.0版本到`cef_binary-1.0`目录，也可以从其他位置下载其他版本的cef，放置到此目录。
+`CEF_BINARY_VER`默认值位`1.0`，CMake脚本会默认下载[winsoft666 cef_binary](https://github.com/winsoft666/cef_binary)项目的v1.0版本到`cef_binary-1.0`目录，也可以从其他位置下载其他版本的cef，放置到此目录。
 
 # 3. 属性
 属性文档见：`src\doc\Attributes.xml`

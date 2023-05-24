@@ -82,7 +82,9 @@ class MainWnd :
 
     UINT m_hTaskCreatedMsg;
 
+#ifdef UILIB_WITH_CEF
     DlgFake* m_pDlgFake;
+#endif
   public:
     MainPageWnd m_MainPage;
 };

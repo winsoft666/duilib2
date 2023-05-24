@@ -40,7 +40,9 @@ MainWnd::MainWnd() :
     m_pEditL(NULL),
 	m_pFlash(NULL),
     m_pCombox(NULL),
+#ifdef UILIB_WITH_CEF
     m_pDlgFake(NULL),
+#endif
     m_pHrlTitle(NULL) {
     m_pMenu = NULL;
 	m_pActiveXFlash = NULL;
@@ -350,6 +352,7 @@ void MainWnd::OnClick(TNotifyUI &msg) {
 		});
 		t.detach();
 	}
+#ifdef UILIB_WITH_CEF
 	else if (strName.CompareNoCase(TEXT("btnPopupTransparentCEF")) == 0) {
 		CTranparentCEFWnd * pDlg = new CTranparentCEFWnd();
 		pDlg->Create(NULL, TEXT("Transparent"), UI_WNDSTYLE_DIALOG, 0, 0, 0, 600, 400);
@@ -362,6 +365,7 @@ void MainWnd::OnClick(TNotifyUI &msg) {
 		pDlg->CenterWindow();
 		pDlg->ShowWindow();
 	}
+#endif
 	else if (strName.CompareNoCase(TEXT("gif")) == 0) {
 		MessageBox(NULL, TEXT("GIF"), TEXT("GIF"), MB_OK);
 	}
@@ -371,6 +375,7 @@ void MainWnd::OnClick(TNotifyUI &msg) {
 			L"<invoke name=\"foo1\" returntype=\"xml\"><arguments><string>Hello</string></arguments></invoke>", strResponse);
 
 	}
+#ifdef UILIB_WITH_CEF
     else if (strName.CompareNoCase(TEXT("btnInvisibleCEF")) == 0) {
         m_pDlgFake = new DlgFake();
 
@@ -391,6 +396,7 @@ void MainWnd::OnClick(TNotifyUI &msg) {
           ::SendMessage(m_pDlgFake->GetHWND(), WM_CLOSE, 0, 0);
         }
     }
+#endif
 }
 
 CControlUI *MainWnd::CreateControl(LPCTSTR pstrClass) {

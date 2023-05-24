@@ -1,5 +1,6 @@
 ﻿#include "StdAfx.h"
 #include "TranparentCefWnd.h"
+#ifdef UILIB_WITH_CEF
 
 DUI_BEGIN_MESSAGE_MAP(CTranparentCEFWnd, WindowImplBase)
 	DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK,OnClick)
@@ -67,3 +68,4 @@ void CTranparentCEFWnd::InitWindow()
 		m_pCef->SetUrl((GetCurrentProcessDirectoryW() +  TEXT("../../../test-resource/lrc.html")).c_str());
 	}
 }
+#endif
