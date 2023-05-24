@@ -21,15 +21,6 @@ option(DUILIB2_BUILD_TESTS "Build demo project" ON)
 option(DUILIB2_USE_STATIC_CRT "Set to ON to build with static CRT on Windows (/MT)." OFF)
 option(UILIB_WITH_CEF "Include CEF Control." OFF)
 
-if(WIN32)
-	# Dll default use MD(d), Lib default use MT(d)
-	if(DUILIB2_BUILD_SHARED_LIBS)
-		set(DUILIB2_USE_STATIC_CRT OFF)
-	else()
-		set(DUILIB2_USE_STATIC_CRT ON)
-	endif()
-endif()
-
 set(DEBUG_LIBNAME_SUFFIX "-d" 
 	CACHE STRING "Optional suffix to append to the library name for a debug build")
 mark_as_advanced(DEBUG_LIBNAME_SUFFIX)
