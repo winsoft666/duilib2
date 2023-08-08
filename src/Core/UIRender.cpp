@@ -11,12 +11,17 @@ namespace DuiLib {
     //
 
     CRenderClip::~CRenderClip() {
-        ASSERT(::GetObjectType(hDC) == OBJ_DC || ::GetObjectType(hDC) == OBJ_MEMDC);
-        ASSERT(::GetObjectType(hRgn) == OBJ_REGION);
-        ASSERT(::GetObjectType(hOldRgn) == OBJ_REGION);
-        ::SelectClipRgn(hDC, hOldRgn);
-        ::DeleteObject(hOldRgn);
-        ::DeleteObject(hRgn);
+        if (hDC) {
+            ASSERT(::GetObjectType(hDC) == OBJ_DC || ::GetObjectType(hDC) == OBJ_MEMDC);
+            if (hOldRgn) {
+                ::SelectClipRgn(hDC, hOldRgn);
+                ::DeleteObject(hOldRgn);
+            }
+
+            if (hRgn) {
+                ::DeleteObject(hRgn);
+            }
+        }
     }
 
     void CRenderClip::GenerateClip(HDC hDC, RECT rc, CRenderClip &clip) {

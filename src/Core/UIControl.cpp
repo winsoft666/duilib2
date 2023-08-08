@@ -1221,9 +1221,10 @@ namespace DuiLib {
             rcBorderSize = m_rcBorderSize;
         }
 
+        CRenderClip roundClip;
         if( cxyBorderRound.cx > 0 || cxyBorderRound.cy > 0 ) {
-            CRenderClip roundClip;
             CRenderClip::GenerateRoundClip(hDC, m_rcPaint,  m_rcItem, cxyBorderRound.cx, cxyBorderRound.cy, roundClip);
+            ::SelectClipRgn(hDC, roundClip.hRgn);
         }
 
         PaintBkColor(hDC);
@@ -1233,6 +1234,10 @@ namespace DuiLib {
         PaintForeImage(hDC);
         PaintText(hDC);
         PaintBorder(hDC);
+        
+        if (roundClip.hOldRgn) {
+            ::SelectClipRgn(hDC, roundClip.hOldRgn);
+        }
 
         return true;
     }

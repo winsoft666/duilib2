@@ -12,9 +12,9 @@ namespace DuiLib {
 	public:
 		~CRenderClip();
 		RECT rcItem;
-		HDC hDC;
-		HRGN hRgn;
-		HRGN hOldRgn;
+		HDC hDC = NULL;
+		HRGN hRgn = NULL;
+		HRGN hOldRgn = NULL;
 
 		static void GenerateClip(HDC hDC, RECT rc, CRenderClip& clip);
 		static void GenerateRoundClip(HDC hDC, RECT rc, RECT rcItem, int width, int height, CRenderClip& clip);
