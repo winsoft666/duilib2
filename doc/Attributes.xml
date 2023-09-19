@@ -10,13 +10,13 @@
     <Attribute name="mininfo" default="0,0" type="SIZE" comment="窗口最小大小,如(320,240)"/>
     <Attribute name="maxinfo" default="0,0" type="SIZE" comment="窗口最大大小,如(1600,1200)"/>
     <Attribute name="alpha" default="255" type="BYTE" comment="窗口的alpha值(0-255),如(100)"/>
-	<Attribute name="opacity" default="255" type="BYTE" comment="同alpha, 值(0-255),如(100)"/>
+    <Attribute name="opacity" default="255" type="BYTE" comment="同alpha, 值(0-255),如(100)"/>
     <Attribute name="bktrans" default="false" type="BOOL" comment="窗口是否使用静态透明背景,如(false)"/>
-	<Attribute name="layered" default="false" type="BOOL" comment="同bktrans，窗口是否使用静态透明背景,如(false)"/>
-	
-	<Attribute name="layeredopacity" default="255" type="BYTE" comment="值(0-255),如(100)"/>
-	<Attribute name="layeredimage" default="" type="STRING" comment=""/>
-	
+    <Attribute name="layered" default="false" type="BOOL" comment="同bktrans，窗口是否使用静态透明背景,如(false)"/>
+
+    <Attribute name="layeredopacity" default="255" type="BYTE" comment="值(0-255),如(100)"/>
+    <Attribute name="layeredimage" default="" type="STRING" comment=""/>
+
     <Attribute name="disabledfontcolor" default="0xFFA7A6AA" type="DWORD" comment="默认的disabled字体颜色,如(0xFFA7A6AA)"/>
     <Attribute name="defaultfontcolor" default="0xFF000000" type="DWORD" comment="默认的字体颜色,如(0xFF000000)"/>
     <Attribute name="linkfontcolor" default="0xFF0000FF" type="DWORD" comment="默认的link字体颜色,如(0xFF0000FF)"/>
@@ -33,10 +33,10 @@
     <Attribute name="dpi" type="STRING" comment="预设DPI值，如auto, 100, 200等"/>
     <Attribute name="gdiplustext" default="false" type="BOOL" comment="是否用gdi+渲染文字（抗锯齿效果更好，默认开启，但是效率低）"/>
     <Attribute name="textrenderinghint" default="0" type="int" comment="gdi+渲染文字提示（0-5），字体大的时候可以设置为4"/>
-	<Attribute name="noactivate" default="false" type="BOOL" comment="是否自动获取焦点"/>
-	<Attribute name="showdirty" default="false" type="BOOL" comment="是否显示更新区域矩形框"/>
-	<Attribute name="tooltiphovertime" default="400" type="INT" comment="tooltip hover状态持续时间ms"/>
-	
+    <Attribute name="noactivate" default="false" type="BOOL" comment="是否自动获取焦点"/>
+    <Attribute name="showdirty" default="false" type="BOOL" comment="是否显示更新区域矩形框"/>
+    <Attribute name="tooltiphovertime" default="400" type="INT" comment="tooltip hover状态持续时间ms"/>
+
   </Window>
   <Include>
     <Attribute name="source" default="" type="STRING" comment="XML布局文件"/>
@@ -360,8 +360,8 @@
     <Attribute name="delaycreate" default="true" type="BOOL" comment="是否需要延迟创建activex,如(false)"/>
   </ActiveX>
   <Flash>
-	<Attribute name="path" default="" type="STRING" comment="flash文件路径或资源ID"/>
-	<Attribute name="restype" default="" type="STRING" comment="如果restype不为空，则从资源DLL中加载改类型的资源"/>
+    <Attribute name="path" default="" type="STRING" comment="flash文件路径或资源ID"/>
+    <Attribute name="restype" default="" type="STRING" comment="如果restype不为空，则从资源DLL中加载改类型的资源"/>
   </Flash>
   <WebBrowser parent="ActiveX">
     <Attribute name="homepage" default="" type="STRING" comment="默认首页"/>
@@ -436,7 +436,7 @@
     <Attribute name="arrowdisabledimage" default="" type="STRING" comment="下拉箭头禁用的状态图片"/>
   </ComboBox>
   <GifAnim parent="Control" notifies="setfocus killfocus timer menu windowinit(root)">
-    <Attribute name="bkimage" default="" type="STRING" comment="Gif动画图片路径(不支持source等属性设置)"/>
+    <Attribute name="image" default="" type="STRING" comment="Gif动画图片路径(不支持source等属性设置)"/>
     <Attribute name="autoplay" default="true" type="BOOL" comment="是否自动播放GIF动画"/>
     <Attribute name="autosize" default="false" type="BOOL" comment="是否根据图片自动设置控件大小(开启后width和height属性失效)"/>
   </GifAnim>
@@ -607,7 +607,7 @@
     <Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
     <Attribute name="hotbkcolor" default="0x00000000" type="DWORD" comment="鼠标悬浮背景颜色,如(0xFFFF00FF)"/>
     <Attribute name="pushedbkcolor" default="0x00000000" type="DWORD" comment="鼠标按下背景颜色,如(0xFFFF00FF)"/>
-	<Attribute name="disabledbkcolor" default="0x00000000" type="DWORD" comment="按钮禁用背景颜色,如(0xFFFF00FF)"/>
+    <Attribute name="disabledbkcolor" default="0x00000000" type="DWORD" comment="按钮禁用背景颜色,如(0xFFFF00FF)"/>
     <Attribute name="bordercolor" default="0x00000000" type="DWORD" comment="边框颜色,如(0xFF000000)"/>
     <Attribute name="focusbordercolor" default="0x00000000" type="DWORD" comment="获得焦点时边框的颜色,如(0xFFFF0000)"/>
     <Attribute name="colorhsl" default="false" type="BOOL" comment="本控件的颜色是否随窗口的hsl变化而变化,如(false)"/>
@@ -759,7 +759,7 @@
     <Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
     <Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
     <Attribute name="padding" default="0,0,0,0" type="RECT" comment="外边距,如(2,2,2,2)"/>
-	<Attribute name="forecolor" default="0x00000000" type="DWORD" comment="前景颜色,如(0xFFFF0000)"/>
+    <Attribute name="forecolor" default="0x00000000" type="DWORD" comment="前景颜色,如(0xFFFF0000)"/>
     <Attribute name="bkcolor" default="0x00000000" type="DWORD" comment="背景颜色,如(0xFFFF0000)"/>
     <Attribute name="bkcolor2" default="0x00000000" type="DWORD" comment="背景渐变色2,和bkcolor配合使用,如(0xFFFFFF00)"/>
     <Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
