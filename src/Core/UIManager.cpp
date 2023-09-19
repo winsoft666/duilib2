@@ -183,7 +183,7 @@ namespace DuiLib {
             // Jeffery: 检查对应DPI的图片是否存在，不存在则使用原图，存在则修改图片名为***@dpi.png格式
             //
             CDuiString newImageName;
-            if (!CDPI::AddAPIInfo(sImageName, pManager->GetDPIObj()->GetScale(), newImageName))
+            if (!CDPI::AddDPIInfo(sImageName, pManager->GetDPIObj()->GetScale(), newImageName))
                 return;
 
             bool newImageIsExist = false;

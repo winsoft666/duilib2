@@ -170,7 +170,7 @@ namespace DuiLib {
     }
 
 
-    bool CDPI::AddAPIInfo(const CDuiString& name, int dpi, CDuiString& newName) {
+    bool CDPI::AddDPIInfo(const CDuiString& name, int dpi, CDuiString& newName) {
         int lastPotPos = name.ReverseFind(TEXT('.'));
 
         if (lastPotPos == -1)

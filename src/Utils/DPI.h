@@ -48,7 +48,7 @@ namespace DuiLib {
         void ScaleBack(RECT *pRect);
 
         static bool StripDPIInfo(const CDuiString &name, CDuiString &newName);
-        static bool AddAPIInfo(const CDuiString &name, int dpi, CDuiString &newName);
+        static bool AddDPIInfo(const CDuiString &name, int dpi, CDuiString &newName);
 
       private:
         int m_nScaleFactor;
