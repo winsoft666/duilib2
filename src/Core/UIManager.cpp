@@ -66,6 +66,118 @@ namespace DuiLib {
         Clear();
     }
 
+    bool tagTDrawInfo::IsImageExist(const CDuiString &newImageName) {
+        bool newImageIsExist = false;
+
+        do {
+          if (sResType.GetLength() == 0) {
+            CDuiString sFile = CPaintManagerUI::GetResourcePath();
+
+            // 先尝试直接打开
+            do {
+              HANDLE hFile = ::CreateFile(newImageName, GENERIC_READ, FILE_SHARE_READ, NULL,
+                                          OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+              if (hFile == INVALID_HANDLE_VALUE)
+                break;
+
+              DWORD dwSize = ::GetFileSize(hFile, NULL);
+              if (dwSize == 0) {
+                CloseHandle(hFile);
+                break;
+              }
+
+              CloseHandle(hFile);
+              newImageIsExist = true;
+            } while (false);
+
+            if (newImageIsExist) {
+              break;
+            }
+
+            if (CPaintManagerUI::GetResourceZip().IsEmpty()) {
+              sFile += newImageName;
+              HANDLE hFile = ::CreateFile(sFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
+                                          FILE_ATTRIBUTE_NORMAL, NULL);
+              if (hFile == INVALID_HANDLE_VALUE)
+                break;
+
+              DWORD dwSize = ::GetFileSize(hFile, NULL);
+              if (dwSize == 0) {
+                CloseHandle(hFile);
+                break;
+              }
+
+              CloseHandle(hFile);
+              newImageIsExist = true;
+            }
+            else {
+              sFile += CPaintManagerUI::GetResourceZip();
+              CDuiString sFilePwd = CPaintManagerUI::GetResourceZipPwd();
+              HZIP hz = NULL;
+
+              if (CPaintManagerUI::IsCachedResourceZip()) {
+                hz = (HZIP)CPaintManagerUI::GetResourceZipHandle();
+              }
+              else {
+#ifdef UNICODE
+                std::string pwd = Unicode2Ansi(sFilePwd.GetData());
+                hz = OpenZip(sFile, pwd.c_str());
+#else
+                hz = OpenZip(sFile, sFilePwd);
+#endif
+              }
+
+              if (hz == NULL)
+                break;
+
+              ZIPENTRY ze;
+              int i = 0;
+              CDuiString key = newImageName;
+              key.Replace(_T("\\"), _T("/"));
+
+              if (FindZipItem(hz, key, true, &i, &ze) != 0) {
+                if (!CPaintManagerUI::IsCachedResourceZip())
+                  CloseZip(hz);
+                break;
+              }
+
+              DWORD dwSize = ze.unc_size;
+              if (dwSize == 0) {
+                if (!CPaintManagerUI::IsCachedResourceZip())
+                  CloseZip(hz);
+                break;
+              }
+
+              newImageIsExist = true;
+            }
+          }
+          else {
+            HINSTANCE dllinstance = CPaintManagerUI::GetResourceDll();
+            HRSRC hResource = ::FindResource(dllinstance, newImageName, sResType);
+            if (hResource == NULL)
+              break;
+
+            HGLOBAL hGlobal = ::LoadResource(dllinstance, hResource);
+
+            if (hGlobal == NULL) {
+              FreeResource(hResource);
+              break;
+            }
+
+            DWORD dwSize = ::SizeofResource(dllinstance, hResource);
+            if (dwSize == 0) {
+              FreeResource(hResource);
+              break;
+            }
+
+            ::FreeResource(hResource);
+            newImageIsExist = true;
+          }
+        } while (false);
+
+        return newImageIsExist;
+    }
+
     void tagTDrawInfo::Parse(LPCTSTR pStrImage, LPCTSTR pStrModify, CPaintManagerUI *pManager) {
         // 1、aaa.jpg
         // 2、file='aaa.jpg' res='' restype='0' dest='0,0,0,0' source='0,0,0,0' corner='0,0,0,0'
@@ -179,123 +291,83 @@ namespace DuiLib {
         }
 
         // 调整DPI资源
-        if (bAdaptDpiScale && pManager->GetDPIObj()->GetScale() != 100) {
-            // Jeffery: 检查对应DPI的图片是否存在，不存在则使用原图，存在则修改图片名为***@dpi.png格式
+        UINT curScale = pManager->GetDPIObj()->GetScale();
+        if (bAdaptDpiScale) {
+            // Jeffery: 检查对应DPI的图片是否存在，不存在则使用优先使用大图进行缩小，最后尝试使用最接近Scale的小图放大
+            // 修改图片名为***@dpi.png格式
             //
-            CDuiString newImageName;
-            if (!CDPI::AddDPIInfo(sImageName, pManager->GetDPIObj()->GetScale(), newImageName))
-                return;
+            bool foundScaleImg = false;
+            UINT selectedScale = 0;
+            CDuiString scaleImageName;
 
-            bool newImageIsExist = false;
+            static UINT scales[] = {100, 125, 150, 175, 200, 225, 250, 275, 300};
+            const int scaleNum = sizeof(scales) / sizeof(UINT);
 
-            do {
-                if (sResType.GetLength() == 0) {
-                    CDuiString sFile = CPaintManagerUI::GetResourcePath();
+            // 优先使用大图进行缩小
+            for (int i = 0; i < scaleNum; i++) {
+                if(scales[i] < curScale)
+                    continue;
 
-                    // 先尝试直接打开
-                    do 
-                    {
-                      HANDLE hFile = ::CreateFile(
-                        newImageName, GENERIC_READ, FILE_SHARE_READ, NULL,
-                          OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-                      if (hFile == INVALID_HANDLE_VALUE)
-                        break;
-
-                      DWORD dwSize = ::GetFileSize(hFile, NULL);
-                      if (dwSize == 0) {
-                        CloseHandle(hFile);
-                        break;
-                      }
-
-                      CloseHandle(hFile);
-                      newImageIsExist = true;
-                    } while (false);
-
-                    if (newImageIsExist) {
-                      break;
-                    }
-
-                    if (CPaintManagerUI::GetResourceZip().IsEmpty()) {
-                        sFile += newImageName;
-                        HANDLE hFile = ::CreateFile(sFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-                        if (hFile == INVALID_HANDLE_VALUE)
-                            break;
-
-                        DWORD dwSize = ::GetFileSize(hFile, NULL);
-                        if (dwSize == 0) {
-                            CloseHandle(hFile);
-                            break;
-                        }
-
-                        CloseHandle(hFile);
-                        newImageIsExist = true;
-                    } else {
-                        sFile += CPaintManagerUI::GetResourceZip();
-                        CDuiString sFilePwd = CPaintManagerUI::GetResourceZipPwd();
-                        HZIP hz = NULL;
-
-                        if (CPaintManagerUI::IsCachedResourceZip()) {
-                            hz = (HZIP)CPaintManagerUI::GetResourceZipHandle();
-                        } else {
-#ifdef UNICODE
-                            std::string pwd = Unicode2Ansi(sFilePwd.GetData());
-                            hz = OpenZip(sFile, pwd.c_str());
-#else
-                            hz = OpenZip(sFile, sFilePwd);
-#endif
-                        }
-
-                        if (hz == NULL)
-                            break;
-
-                        ZIPENTRY ze;
-                        int i = 0;
-                        CDuiString key = newImageName;
-                        key.Replace(_T("\\"), _T("/"));
-
-                        if (FindZipItem(hz, key, true, &i, &ze) != 0) {
-                            if (!CPaintManagerUI::IsCachedResourceZip())
-                                CloseZip(hz);
-                            break;
-                        }
-
-                        DWORD dwSize = ze.unc_size;
-                        if (dwSize == 0) {
-                            if (!CPaintManagerUI::IsCachedResourceZip())
-                                CloseZip(hz);
-                            break;
-                        }
-
-                        newImageIsExist = true;
-                    }
-                } else {
-                    HINSTANCE dllinstance = CPaintManagerUI::GetResourceDll();
-                    HRSRC hResource = ::FindResource(dllinstance, newImageName, sResType);
-                    if (hResource == NULL)
-                        break;
-
-                    HGLOBAL hGlobal = ::LoadResource(dllinstance, hResource);
-
-                    if (hGlobal == NULL) {
-                        FreeResource(hResource);
+                CDuiString newImageName;
+                if (scales[i] == 100) {
+                    newImageName = sImageName;
+                    if (IsImageExist(newImageName)) {
+                        foundScaleImg = true;
+                        selectedScale = scales[i];
+                        scaleImageName = newImageName;
                         break;
                     }
-
-                    DWORD dwSize = ::SizeofResource(dllinstance, hResource);
-                    if (dwSize == 0) {
-                        FreeResource(hResource);
-                        break;
-                    }
-
-                    ::FreeResource(hResource);
-                    newImageIsExist = true;
                 }
-            } while (false);
 
+                 if (CDPI::AddDPIInfo(sImageName, scales[i], newImageName)) {
+                    if (IsImageExist(newImageName)) {
+                        foundScaleImg = true;
+                        selectedScale = scales[i];
+                        scaleImageName = newImageName;
+                        break;
+                    }
+                }
+            }
 
-            if (newImageIsExist) {
-                sImageName = newImageName;
-            } else {
+            if (!foundScaleImg) {
+                // 其次尝试使用小图进行放大
+                for (int i = scaleNum - 1; i >= 0; i--) {
+                    if (scales[i] >= curScale)
+                        continue;
+
+                    CDuiString newImageName;
+                    if (scales[i] == 100) {
+                        newImageName = sImageName;
+                        if (IsImageExist(newImageName)) {
+                            foundScaleImg = true;
+                            selectedScale = scales[i];
+                            scaleImageName = newImageName;
+                            break;
+                        }
+                    }
+
+                    if (CDPI::AddDPIInfo(sImageName, scales[i], newImageName)) {
+                        if (IsImageExist(newImageName)) {
+                            foundScaleImg = true;
+                            selectedScale = scales[i];
+                            scaleImageName = newImageName;
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            if (foundScaleImg) {
+                TraceMsgW(L"%s -> %s, scale: %d -> %d\n", 
+                    sImageName.GetData(), 
+                    scaleImageName.GetData(), 
+                    curScale, 
+                    selectedScale);
+                sImageName = scaleImageName;
+            }
+            else {
+                TraceMsgW(L"%s not found suitable scale(%d) image\n", sImageName.GetData(), curScale);
                 bForceOriginImage = true;
             }
         }

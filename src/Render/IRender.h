@@ -34,6 +34,7 @@ namespace DuiLib {
         tagTDrawInfo();
         void Parse(LPCTSTR pStrImage, LPCTSTR pStrModify, CPaintManagerUI *pManager);
         void Clear();
+        bool IsImageExist(const CDuiString &newImageName);
 
         CDuiString sDrawString;
         CDuiString sDrawModify;
