@@ -38,9 +38,5 @@
 - 优化：任务栏托盘，提供任务栏重启重新创建托盘图标的功能。
 - 修复：flash控件显示异常，及无法与C++交互的问题。
 - 新增：CMake支持。
+- 新增：支持通过Vcpkg安装。
 
-
----
-
-> 由于DuiLib需要修复的Bug以及需要新增的特性实在是太多了，建议在不考虑版权的情况下，优先使用类似Qt这样的成熟稳定的界面库。
-Qt自带的QWebEngine可以用来显示Web页面并与其交互，如果希望寻求更大的自由度可以采用Qt+CEF的方式，实现方式和Duilib2中的方式类似，可以参考[QCefWidget](https://github.com/winsoft666/QCefWidget)
