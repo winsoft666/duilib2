@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>ppxcef测试页面</title>
+		<script type="text/javascript">
+			function JSNotifyCpp()  
+            {  
+				var num = 1;
+				while(num++ < 1000) {
+					window.Duilib2App.JSNotifyCppFunc("business" + num, num, "chinese" + num);
+				}
+            }
+
+			
+			window.OnRecvCppNotify = function(value1, value2) {
+				alert("OnRecvCppNotify: " + value1 + ", " + value2);
+			}
+			
+			function RegisterJsCbFunc(){
+				window.Duilib2App.RegisterCppNotifyCppFunc("cpp2js_test", OnRecvCppNotify);
+			}
+			
+			window.Duilib2App.RegisterCppNotifyCppFunc("cpp2js_user_logout", OnRecvCppNotify);
+			
+			window.onunload=function(){
+				alert("确定要退出吗？");
+			};
+		</script>
+    <style>
+    .title {
+      -webkit-app-region: drag;
+      background-color: rgb(5, 39, 175);
+      width: 100%;
+      height: 40px;
+      color: white;
+
+      padding-left: 10px;
+      line-height: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .title-area {
+      width: calc((100% - 35px)/2);
+      text-align: left;
+    }
+
+    .title-button {
+      -webkit-app-region: no-drag;
+      background-color: red;
+      width: 100px;
+      height: 20px;
+      font-size: 8px;
+      text-align: center;
+      line-height: 20px;
+    }
+    </style>
+	</head>
+
+	<body style="width:100%;height:100%;background-color:green;" >
+    <div class='title'>
+      <div class="title-area">Draggable Area</div>
+      <div class="title-button">
+        CAN'T DRAG
+      </div>
+    </div>
+  
+		<input type="button" value='测试JS通知C++' onclick="JSNotifyCpp()" />
+		<br />
+		<br />
+		<input type="button" value="注册JS回调函数，用于C++通知JS" onclick="RegisterJsCbFunc()" />
+		
+		<br />
+		<br />
+		<input type="button" value="测试跳转到/" onclick="window.location.href = '/'" />
+		
+		<br />
+		<br />
+		
+		<input type="text" name="fname" />
+		<br />
+		<br />
+		<input type="text" name="lname" />
+	</body>
+	
+</html>
