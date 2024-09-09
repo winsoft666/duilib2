@@ -1,17 +1,18 @@
 # 1. duilib2
 关于`duilib`的介绍可以访问：[https://github.com/duilib/duilib](https://github.com/duilib/duilib)
 
-该项目基于[DuiLib_Ultimate](https://github.com/qdtroy/DuiLib_Ultimate)修改，对其进行了BUG修复、功能增强。
+该项目基于 [duilib](https://github.com/duilib/duilib) 修改而来。
 
 # 2. 如何编译
-使用CMake生成相应的工程然后编译。
+
+使用 CMake 生成相应的工程，然后编译即可。
 
 如果需要编译Cef控件，需要打开`UILIB_WITH_CEF`选项，并设置`CEF_BINARY_VER`参数。
 
-`CEF_BINARY_VER`默认值位`1.0`，CMake脚本会默认下载[winsoft666 cef_binary](https://github.com/winsoft666/cef_binary)项目的v1.0版本到`cef_binary-1.0`目录，也可以从其他位置下载其他版本的cef，放置到此目录。
+`CEF_BINARY_VER` 默认值为`1.0`，CMake 脚本默认会下载 [winsoft666 cef_binary](https://github.com/winsoft666/cef_binary) v1.0 版本到`cef_binary-1.0`目录。当然，你也可以自行下载其他版本的cef，放置到此目录。
 
 # 3. 属性
-属性文档见：`src\doc\Attributes.xml`
+属性文档见：[src\doc\Attributes.xml](.\src\doc\Attributes.xml)
 
 # 4. BUG修复及新增功能
 
@@ -38,5 +39,5 @@
 - 优化：任务栏托盘，提供任务栏重启重新创建托盘图标的功能。
 - 修复：flash控件显示异常，及无法与C++交互的问题。
 - 新增：CMake支持。
-- 新增：支持通过Vcpkg安装。
-
+- 新增：支持通过Vcpkg安装。  
+  未提交到vcpkg官方，需要手动将`vcpkg_port\duilib2`目录拷贝到`vcpkg\ports`目录中，然后执行`vcpkg install duilib2`安装。
